@@ -1,0 +1,32 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "resources": [
+      {
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "apiVersion": "2019-12-01",
+        "name": "[concat(parameters('vmName'), '/StartVMTask')]",
+        "location": "[resourceGroup().location]",
+        "properties": {
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.0",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+            "fileUris": [
+              "https://raw.githubusercontent.com/itjlwarranty/jlwarranty/start-vm.ps1"
+            ],
+            "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File start-vm.ps1"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "vmName": {
+        "type": "string",
+        "metadata": {
+          "description": "Name of the VM"
+        }
+      }
+    }
+  }
